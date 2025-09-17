@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsApp Bot Pairing</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+}
+    h1 {
+      color: #075e54;
+}
+    #code {
+      font-size: 2rem;
+      color: #128c7e;
+      background: #fff;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+}
+    #status {
+      margin-top: 1rem;
+      color: #555;
+}
+  </style>
+</head>
+<body>
+  <h1>Enter This Code in WhatsApp</h1>
+  <div id="code">Loading...</div>
+  <div id="status">Waiting for pairing code...</div>
+
+  <script>
+    async function fetchPairingCode() {
+      try {
+        const res = await fetch("/pair-code");
+        const data = await res.json();
+        if (data.code) {
+          document.getElementById("code").textContent = data.code;
+          document.getElementById("status").textContent = "Go to WhatsApp → Linked Devices → Enter Code";
+} else {
+          document.getElementById("code").textContent = "Not available";
+          document.getElementById("status").textContent = "Bot is not ready yet.";
+}
+} catch (err) {
+        document.getElementById("code").textContent = "Error";
+        document.getElementById("status").textContent = "Could not fetch pairing code.";
+}
+}
+
+    fetchPairingCode();
+  </script>
+</body>
+</html>
